@@ -21,6 +21,8 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 ## Function to load OpenAI model and get respones
 
 def get_gemini_response(input,image):
+    if image is None:
+        return "请选择图片.."
     model = genai.GenerativeModel('gemini-pro-vision')
     if input!="":
        response = model.generate_content([input,image])
@@ -32,8 +34,8 @@ def get_gemini_response(input,image):
 
 st.set_page_config(page_title="Gemini Image",initial_sidebar_state="collapsed")
 
-#st.header("Gemini Application")
-input=st.text_input("Input Prompt: ",key="input")
+st.header("Gemini Application")
+input=st.text_input("提问: ",key="input")
 uploaded_file = st.file_uploader("选择图片...", type=["jpg", "jpeg", "png"])
 image=""   
 if uploaded_file is not None:
@@ -48,5 +50,5 @@ submit=st.button("Tell me about the image")
 if submit:
     
     response=get_gemini_response(input,image)
-    st.subheader("The Response is")
+    st.subheader("回答:")
     st.write(response)
