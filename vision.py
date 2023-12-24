@@ -21,8 +21,6 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 ## Function to load OpenAI model and get respones
 
 def get_gemini_response(input,image):
-    if image is None:
-        return "请选择图片.."
     model = genai.GenerativeModel('gemini-pro-vision')
     if input!="":
        response = model.generate_content([input,image])
@@ -48,7 +46,7 @@ submit=st.button("Tell me about the image")
 ## If ask button is clicked
 
 if submit:
-    st.write(type(image))
-    response=get_gemini_response(input,image)
-    st.subheader("回答:")
-    st.write(response)
+    if uploaded_file is not None:
+        response=get_gemini_response(input,image)
+        st.subheader("回答:")
+        st.write(response)
